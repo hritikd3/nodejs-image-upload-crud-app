@@ -1,40 +1,58 @@
 <%- include('layout/header') %>
 
-<div class="container">
-    <div class="row my-4">
-        <div class="col-lg-12">
-<div class="table-responsive mx-4">
-    <table class="table table-striped mx-4 text-center">
-        <br>
-        <thead>
-           <tr class="table-dark">
-            <th>ID</th>
-            <th>Images</th>
-            <th>Name</th>
-            <th>E-mail</th>
-            <th>Phone</th>
-            <th>Action</th>
-           </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td><img src="" /></td>
-                <td>Hritik Singh</td>
-                <td>codewithhritik@gmail.com</td>
-                <td>8921828222</td>
-                <td>
-                    <a href="" class="text-succes">
-                        <i class="fas fa-edit fa-lg mx-1 "></i></a>
-                    <a href="" class="text-danger">
-                        <i class="fas fa-trash fa-lg mx-1 "></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-lg-12">
+                <% if (message) { %>
+                    <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+                        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong>
+                            <%= message.message %>
+                        </strong>
+                    </div>
+                    <% } %>
+                        <div class="table-responsive mx-4">
+                            <table class="table table-striped mx-4 text-center">
+                                <br>
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>ID</th>
+                                        <th>Images</th>
+                                        <th>Name</th>
+                                        <th>E-mail</th>
+                                        <th>Phone</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach((user, index)=> { %>
+                                        <tr>
+                                            <td>
+                                                <%= index + 1 %>
+                                            </td>
+                                            <td><img src="<%= user.image %>" /></td>
+                                            <td>
+                                                <%= user.name %>
+                                            </td>
+                                            <td>
+                                                <%= user.email %>
+                                            </td>
+                                            <td>
+                                                <%= user.phone %>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="text-success"><i
+                                                        class="fas fa-edit fa-lg mx-1"></i></a>
+                                                <a href="#" class="text-danger"><i
+                                                        class="fas fa-trash fa-lg mx-1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+            </div>
         </div>
     </div>
-</div>
 
-<%- include('layout/footer') %>
+    <%- include('layout/footer') %>
