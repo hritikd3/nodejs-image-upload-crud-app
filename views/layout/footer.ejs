@@ -13,6 +13,36 @@
             order: [0, 'desc']
         });
     })
+    // Get references to the input field and table
+        const searchInput = document.getElementById('searchInput');
+        const dataTable = document.getElementById('dataTable');
+
+        // Add an event listener to the input field for the 'input' event
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+            const rows = dataTable.getElementsByTagName('tr');
+
+            // Iterate through each row of the table
+            for (let i = 1; i < rows.length; i++) {
+                const rowData = rows[i].getElementsByTagName('td');
+                let foundMatch = false;
+
+                // Iterate through each cell in the current row
+                for (let j = 0; j < rowData.length; j++) {
+                    const cellData = rowData[j].textContent.toLowerCase();
+
+                    // Check if the cell data contains the search term
+                    if (cellData.includes(searchTerm)) {
+                        foundMatch = true;
+                        break;
+                    }
+                }
+
+                // Show/hide the row based on whether a match was found
+                rows[i].style.display = foundMatch ? '' : 'none';
+            }
+        });
+
 </script>
 
 </body>
