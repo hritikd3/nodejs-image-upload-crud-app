@@ -25,10 +25,10 @@
                 <label for="image">Select Image</label>
                 <input type="file" name="image" class="form-control-file custom-file-input" id="image" >
                 <img src="<%= user.image %>" width="100" 
-                class="img-thumbnail " mt-1 >
+                class="img-thumbnail  ">
             </div>
-            <input type="hidden" name="old_image" value="<%= user.image %>" class="btn btn-success btn-lg" >
-            <button type="submit" class="btn btn-primary custom-button">Add User</button>
+            <input type="hidden" name="old_image" value="<%= user.image %>" class="btn " >
+            <button type="submit" class="btn btn-success btn-lg custom-button">Add User</button>
         </form>
         </div> 
     </div>
@@ -36,6 +36,6 @@
     <%- include('layout/footer') %>
     <style>
         .container .text-center{
-            color: rgb(235, 16, 151);
+            color: rgb(0, 0, 0);
         }
     </style>
