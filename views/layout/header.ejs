@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <!-- for tables -->
     <link href="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.css" rel="stylesheet" />
 
@@ -39,15 +39,16 @@
 
     .custom-file-input {
         padding: 8px;
-        border-radius: 3px;
+        border-radius: 7px;
         border: 1px solid #ccc;
         background-color: #fff;
     }
 
     .custom-button {
         margin-top: 10px;
+        margin-bottom: 12px;
         padding: 10px 20px;
-        border-radius: 3px;
+        border-radius: 10px;
     }
     /* Color of the links BEFORE scroll */
 .navbar-scroll .nav-link,
@@ -95,10 +96,10 @@
         <!-- Container wrapper -->
         <div class="container">
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="#"><i class="fab fa-linkedin fa-2x"></i></a>
+            <a class="navbar-brand" href="/"><i class="fab fa-codiepie fa-3x"></i></a>
             <!-- Search form -->
             <form class="input-group" style="width: 400px">
-                <input type="search" class="form-control" placeholder="Type query" aria-label="Search" />
+                <input type="search" id="searchInput" class="form-control" placeholder="Type query" aria-label="Search" />
                 <button class="btn btn-outline-primary" type="button" data-mdb-ripple-color="dark"
                     style="padding: .45rem 1.5rem .35rem;">
                     Search
