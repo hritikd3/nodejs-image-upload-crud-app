@@ -6,7 +6,7 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-// Configure multer for file upload the logic goes here for the file upload 
+// Configure multer for file upload the logic goes here for the file upload
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: function (req, file, cb) {
@@ -124,6 +124,33 @@ router.post("/update/:id", upload, async (req, res) => {
     };
     res.redirect("/");
   }
+});
+
+// Delete user route functionality goes here
+router.get("/delete/:id", (req, res) => {
+  let id = req.params.id;
+  User.findOneAndDelete({ _id: id })
+    .exec()
+    .then((result) => {
+      if (result && result.image !== "") {
+        try {
+          fs.unlinkSync("./uploads/" + result.image);
+          console.log("Image deleted:", result.image);
+        } catch (err) {
+          console.log("Error deleting image:", err);
+        }
+      }
+
+      req.session.message = {
+        type: "info",
+        message: "User deleted successfully",
+      };
+
+      res.redirect("/");
+    })
+    .catch((err) => {
+      res.json({ message: err.message });
+    });
 });
 
 // Route for rendering the add_users page
