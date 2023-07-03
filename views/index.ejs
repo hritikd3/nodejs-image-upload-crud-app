@@ -13,7 +13,7 @@
                     <% } %>
                         <div class="table-responsive mx-4">
 
-                            <% if (users != '') { %>
+                            <% if (users !='' ) { %>
                                 <table id="dataTable" class="table table-striped mx-4 text-center">
                                     <br>
                                     <thead>
@@ -30,7 +30,7 @@
                                         <% users.forEach((row, index)=> { %>
                                             <tr class="align-middle">
                                                 <td>
-                                                    <%= index  %>
+                                                    <%= index %>
                                                 </td>
                                                 <td><img src="<%= row.image %>" width="80" class="img-thumbnail" /></td>
                                                 <td>
@@ -43,8 +43,8 @@
                                                     <%= row.phone %>
                                                 </td>
                                                 <td>
-            
-            
+
+
                                                     <a href="/edit/<%= row._id %>" class="text-success"><i
                                                             class="fas fa-edit fa-lg mx-1"></i></a>
                                                     <a href="/delete/<%= row._id %>" class="text-danger"><i
@@ -54,9 +54,9 @@
                                             <% }); %>
                                     </tbody>
                                 </table>
-                               
+
                                 <% } else { %>
-  <h1 class="tetx-center tet-secondary mt-5"> No user in the database</h1>
+                                    <h1 class="text-center text-secondary mt-5"> No user in the database</h1>
                                     <% } %>
                         </div>
             </div>
