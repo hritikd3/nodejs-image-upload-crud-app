@@ -3,10 +3,12 @@ const router = express.Router();
 const User = require("../models/users");
 const multer = require("multer");
 const fs = require("fs");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 // Configure multer for file upload
 const storage = multer.diskStorage({
-  destination: "./uploads", 
+  destination: "./uploads",
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, file.fieldname + "_" + uniqueSuffix + "_" + file.originalname);
@@ -19,15 +21,15 @@ router.post("/add", upload, async (req, res) => {
   try {
     const user = new User({
       name: req.body.name,
-      email: req.body.email, 
+      email: req.body.email,
       phone: req.body.phone,
       image: req.file.filename,
-    }); 
+    });
     await user.save();
-    req.session.message = { 
+    req.session.message = {
       type: "success",
       message: "User added successfully",
-    }; 
+    };
     res.redirect("/");
   } catch (err) {
     console.error(err);
@@ -61,7 +63,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-
 // // Route for deleting a user from the database
 // router.delete("/delete/:id", async (req, res) => {
 //   try {
@@ -73,7 +74,7 @@ router.get("/", async (req, res) => {
 
 //     // Delete the associated image file
 //     fs.unlinkSync(`./uploads/${user.image}`);
-    
+
 //     console.log(user)
 //     await user.remove();
 //     console.log(user)
@@ -93,6 +94,83 @@ router.get("/", async (req, res) => {
 //     res.redirect("/");
 //   }
 // });
+
+// get all users  route
+router.get("/", (req, res) => {
+  User.find().exec((err, users) => {
+    if (err) {
+      res.json({ message: err.message });
+    } else {
+      res.render("index", {
+        title: "Home Page",
+        users: users,
+      });
+    }
+  });
+});
+
+// Edit a user route
+router.get("/edit/:id", (req, res) => {
+  let id = req.params.id;
+  User.findById(id)
+    .exec()
+    .then((user) => {
+      if (!user) {
+        res.redirect("/");
+      } else {
+        res.render("edit_users", {
+          title: "Edit User",
+          user: user,
+        });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.redirect("/");
+    });
+});
+// Update user route
+router.post("/update/:id", upload, async (req, res) => {
+  let id = req.params.id;
+  try {
+    id =new ObjectId(id); // Convert id to ObjectId
+    let new_image = "";
+    if (req.file) {
+      new_image = req.file.fieldname;
+      try {
+        // Remove the previous image file
+        fs.unlinkSync("./uploads/" + req.body.old_image);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      new_image = req.body.old_image;
+    }
+    const updatedUser = await User.findByIdAndUpdate(id, {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      image: new_image,
+    });
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    req.session.message = {
+      type: "success",
+      message: "User updated successfully",
+    };
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    req.session.message = {
+      type: "danger",
+      message: err.message,
+    };
+    res.redirect("/");
+  }
+});
 
 // Route for rendering the add_users page
 router.get("/add", (req, res) => {

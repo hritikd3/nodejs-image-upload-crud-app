@@ -40,6 +40,9 @@ app.use((err, req, res, next) => {
   res.status(500).send("Internal Server Error");
 });
 
+//logic for image icon 
+app.use(express.static("uploads"));  
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`App is listening on http://localhost:${PORT}`);
