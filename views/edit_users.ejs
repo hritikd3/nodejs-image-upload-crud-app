@@ -1,8 +1,10 @@
 <%- include('layout/header') %>
 
 
-    <div class="container mt-5 bg-success">
+    <div class="container mt-5 ">
         <h2 class="text-center mb-4">Edit User (<%= user.name %>)</h2>
+        <div class="edit-user-container">
+
         <form action="/update/<%= user._id %>" method="post" id="add-form" enctype="multipart/form-data" class="custom-form">
             <div class="form-group">
                 <label for="name">Name</label>
@@ -28,6 +30,12 @@
             <input type="hidden" name="old_image" value="<%= user.image %>" class="btn btn-success btn-lg" >
             <button type="submit" class="btn btn-primary custom-button">Add User</button>
         </form>
+        </div> 
     </div>
 
     <%- include('layout/footer') %>
+    <style>
+        .container .text-center{
+            color: rgb(235, 16, 151);
+        }
+    </style>
