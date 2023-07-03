@@ -6,7 +6,7 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
 
-// Configure multer for file upload
+// Configure multer for file upload the logic goes here for the file upload 
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: function (req, file, cb) {
@@ -37,14 +37,14 @@ router.post("/add", upload, async (req, res) => {
       type: "danger",
       message: "Failed to add user",
     };
-    return res.status(500).redirect("/");
+    res.status(500).redirect("/");
   }
 });
 
 // Route for rendering the index page
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find(); // Fetch users from the database
+    const users = await User.find().exec(); // Fetch users from the database
     const message = req.session.message; // Retrieve the message from the session
     delete req.session.message; // Remove the message from the session
 
@@ -63,98 +63,52 @@ router.get("/", async (req, res) => {
   }
 });
 
-// // Route for deleting a user from the database
-// router.delete("/delete/:id", async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.id);
-
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     // Delete the associated image file
-//     fs.unlinkSync(`./uploads/${user.image}`);
-
-//     console.log(user)
-//     await user.remove();
-//     console.log(user)
-
-//     req.session.message = {
-//       type: "success",
-//       message: "User deleted successfully",
-//     };
-
-//     res.redirect("/");
-//   } catch (err) {
-//     console.error(err);
-//     req.session.message = {
-//       type: "danger",
-//       message: "Failed to delete user",
-//     };
-//     res.redirect("/");
-//   }
-// });
-
-// get all users  route
-router.get("/", (req, res) => {
-  User.find().exec((err, users) => {
-    if (err) {
-      res.json({ message: err.message });
-    } else {
-      res.render("index", {
-        title: "Home Page",
-        users: users,
-      });
-    }
-  });
-});
-
 // Edit a user route
-router.get("/edit/:id", (req, res) => {
-  let id = req.params.id;
-  User.findById(id)
-    .exec()
-    .then((user) => {
-      if (!user) {
-        res.redirect("/");
-      } else {
-        res.render("edit_users", {
-          title: "Edit User",
-          user: user,
-        });
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.redirect("/");
-    });
-});
-// Update user route
-router.post("/update/:id", upload, async (req, res) => {
-  let id = req.params.id;
+router.get("/edit/:id", async (req, res) => {
   try {
-    id =new ObjectId(id); // Convert id to ObjectId
-    let new_image = "";
-    if (req.file) {
-      new_image = req.file.fieldname;
-      try {
-        // Remove the previous image file
-        fs.unlinkSync("./uploads/" + req.body.old_image);
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      new_image = req.body.old_image;
+    const id = req.params.id;
+    const user = await User.findById(id).exec();
+
+    if (!user) {
+      return res.redirect("/");
     }
-    const updatedUser = await User.findByIdAndUpdate(id, {
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone,
-      image: new_image,
+
+    res.render("edit_users", {
+      title: "Edit User",
+      user: user,
     });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/");
+  }
+});
+router.post("/update/:id", upload, async (req, res) => {
+  const id = req.params.id;
+  const newImage = req.file ? req.file.filename : req.body.old_image;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        image: newImage,
+      },
+      { new: true }
+    );
 
     if (!updatedUser) {
       throw new Error("User not found");
+    }
+
+    // Remove the previous image file if a new image was uploaded
+    if (req.file) {
+      try {
+        fs.unlinkSync(`./uploads/${req.body.old_image}`);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     req.session.message = {
