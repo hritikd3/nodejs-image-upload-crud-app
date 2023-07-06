@@ -5,7 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
- 
+
 // Configure multer for file upload the logic goes here for the file upload
 const storage = multer.diskStorage({
   destination: "./uploads",
@@ -110,12 +110,12 @@ router.post("/update/:id", upload, async (req, res) => {
         console.log(err);
       }
     }
-
+ 
     req.session.message = {
       type: "success",
       message: "User updated successfully",
     };
-    res.redirect("/");
+    res.redirect("/");    
   } catch (err) {
     console.error(err);
     req.session.message = {
@@ -138,11 +138,11 @@ router.get("/delete/:id", (req, res) => {
           console.log("Image deleted:", result.image);
         } catch (err) {
           console.log("Error deleting image:", err);
-        }
+        }  
       }
 
       req.session.message = {
-        type: "info",
+        type: "danger",
         message: "User deleted successfully",
       };
 
