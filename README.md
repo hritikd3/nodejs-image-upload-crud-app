@@ -1,11 +1,27 @@
-# Project Name🚨
 
- <center>
-<h2>Seamless User Management:🧑‍💻 <br>
- Create, Explore, Update, and Delete with Ease! </h2>
+
+<h1 align="center">Project Name🚨</h1>   
+
+
+
+<h1 align="center">Seamless User Management:🧑‍💻 <br>
+ Create, Explore, Update, and Delete with Ease! </h1>
 
  Deployed Link:- [Click here](https://nodecrud-hp3d.onrender.com/)
-</center>
+
+<hr>
+
+![image](https://github.com/hritikd3/nodejs-image-upload-crud-app/assets/86347286/b9861d86-b5fc-4895-a306-5b8706da22fb)
+
+**Add User**
+
+![image](https://github.com/hritikd3/nodejs-image-upload-crud-app/assets/86347286/b0f2ec36-8c5b-4dd3-953b-3d19ba5b71a2)
+
+**Delete User**
+
+![image](https://github.com/hritikd3/nodejs-image-upload-crud-app/assets/86347286/96d57755-aebf-4fce-94f7-494dc0ff6bd9)
+
+**Update User**
 <hr>
 
 ## Tech Stack 🚀
